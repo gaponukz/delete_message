@@ -55,12 +55,12 @@ async def delete() -> None:
 
     with open(file_name, 'w', encoding = 'utf') as logfile:
         for message in messages:
-            message_text = message.message.replace('\n', ' ') 
+            message_text = message.message.replace('\n', ' ') \
                 if not message.media else '<image>'
             
             author = await client.get_entity(PeerUser(message.from_id))
-            author = author.username if author.username 
-                else author.first_name if author.first_name 
+            author = author.username if author.username \
+                else author.first_name if author.first_name \
                     else author.id
 
             await client.delete_messages(dialogs[select], message.id)
