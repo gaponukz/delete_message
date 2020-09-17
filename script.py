@@ -1,9 +1,10 @@
+''' All function for telegram api '''
 from telethon.sync import TelegramClient
 from telethon.tl.types import PeerUser
 from telethon.tl.functions.messages import GetHistoryRequest
-from datetime import date, datetime
+''' Utility function date, json format'''
+from datetime import datetime
 import json
-import asyncio
 
 with open("setting.json", "r", encoding = "utf-8") as read_file:
     json_data = json.loads(read_file.read())
@@ -38,14 +39,15 @@ async def delete() -> None:
     
     select = int(input(f'Select dialog: '))
     print('Select date range, from - to. For example: from 20-09-16 to 20-09-17')
-    _from = input('From: '); to = input('To: ')
+    _from = input('From: ').replace(' ', ''); to = input('To: ').replace(' ', '')
 
     messages = await client.get_messages(dialogs[select], limit = None)
 
     messages = [
         message for message in messages 
-        if await between(message, to, _from) # to, _from
+        if await between(message, to, _from)
     ]
+
     lenth_of_message = len(messages)
     messages_cout = 1
     date_now = str(datetime.now()).split()[0]
