@@ -53,10 +53,13 @@ async def delete() -> None:
     date_now = str(datetime.now()).split()[0]
     file_name = f'deleted-messages-{date_now}-{dialogs[select].id}.txt'
 
-    with open(file_name, 'w', encoding = 'utf') as logfile:
+    with open(file_name, 'a', encoding = 'utf') as logfile:
         for message in messages:
-            message_text = message.message.replace('\n', ' ') \
-                if not message.media else '<image>'
+            try:
+                message_text = message.message.replace('\n', ' ') \
+                    if not message.media else '<image>'
+            except:
+                message_text = '<other>'
             
             author = await client.get_entity(PeerUser(message.from_id))
             author = author.username if author.username \
